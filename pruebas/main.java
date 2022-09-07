@@ -18,6 +18,8 @@ class Main {
 
 class Thompson {
 
+    // Epsilon: ε
+
     private String er;
 
     private Stack<String> stack;
