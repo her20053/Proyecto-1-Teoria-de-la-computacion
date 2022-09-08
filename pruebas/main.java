@@ -1,4 +1,3 @@
-import java.util.Stack;
 
 class Main {
 
@@ -9,31 +8,23 @@ class Main {
         // Definimos el objeto Thompson y le asignamos su expresion regular
         Thompson thompson = new Thompson(expresionRegular);
 
+        // thompson.reglaSimbolo('a');
+        AFN afn1 = thompson.reglaSimbolo('a');
+        AFN afn2 = thompson.reglaSimbolo('b');
+
+        AFN afn3 = thompson.reglaOR(afn1, afn2);
+
+        AFN afn4 = thompson.reglaKleen(afn3);
+        afn4.mostrarAFN();
+
+        // afn3.mostrarAFN();
+
         // Construimos el Automata finito no dirigido:
-        thompson.construirAFN();
+        // thompson.construirAFN();
 
-    }
+        // String expresionPostfix =
+        // Postfix.infixToPostfix("((a|b)*.a.(a|b)*.a.(a|b)*)*.b");
 
-}
-
-class Thompson {
-
-    // Epsilon: ε
-
-    private String er;
-
-    private Stack<String> stack;
-
-    public Thompson(String expresionRegular) {
-        this.er = expresionRegular;
-    }
-
-    public void construirAFN() {
-
-    }
-
-    public String getEr() {
-        return er;
     }
 
 }
