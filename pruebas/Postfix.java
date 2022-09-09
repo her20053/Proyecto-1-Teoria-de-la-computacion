@@ -9,11 +9,11 @@ public class Postfix {
     // higher precedence
     static int Prec(char ch) {
         switch (ch) {
-            case '.':
+            case '|':
                 return 1;
 
-            case '+':
-            case '|':
+            case '.':
+                // case '|':
                 return 2;
 
             case '*':
@@ -32,7 +32,17 @@ public class Postfix {
         // initializing empty stack
         Deque<Character> stack = new ArrayDeque<Character>();
 
+        // System.out.println(exp);
+
         for (int i = 0; i < exp.length(); ++i) {
+
+            // System.out.println(result);
+            // System.out.print("Operandos en stack: ");
+            for (char c : stack) {
+                // System.out.print(c + " ");
+            }
+            // System.out.println();
+
             char c = exp.charAt(i);
 
             // If the scanned character is an
@@ -81,13 +91,13 @@ public class Postfix {
 
     // Driver's code
     // public static void main(String[] args) {
-    //     String exp = "a.(a+b)*.b";
-    //     String exp1 = "(a|b)*.a.b.b";
-    //     String exp2 = "((a|b)*.a.(a|b)*.a.(a|b)*)*.b";
+    // String exp = "a.(a+b)*.b";
+    // String exp1 = "(a|b)*.a.b.b";
+    // String exp2 = "((a|b)*.a.(a|b)*.a.(a|b)*)*.b";
 
-    //     // Function call
-    //     System.out.println(infixToPostfix(exp));
-    //     System.out.println(infixToPostfix(exp1));
-    //     System.out.println(infixToPostfix(exp2));
+    // // Function call
+    // System.out.println(infixToPostfix(exp));
+    // System.out.println(infixToPostfix(exp1));
+    // System.out.println(infixToPostfix(exp2));
     // }
 }

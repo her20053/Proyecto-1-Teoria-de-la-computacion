@@ -47,6 +47,9 @@ public class Thompson {
         Transicion transicion1 = new Transicion(estado1temp, 'ε', afn1.transiciones.get(0).estadoInicial);
         Transicion transicion2 = new Transicion(estado1temp, 'ε', afn2.transiciones.get(0).estadoInicial);
 
+        transicion1.valorTransaccion = 1;
+        transicion2.valorTransaccion = 1;
+
         afn3.transiciones.add(transicion1);
         afn3.transiciones.add(transicion2);
 
@@ -70,6 +73,9 @@ public class Thompson {
         Transicion transicion5 = new Transicion(ultimosEstadoAFN1, 'ε', estado2temp);
         Transicion transicion6 = new Transicion(ultimosEstadoAFN2, 'ε', estado2temp);
 
+        transicion5.valorTransaccion = 1;
+        transicion6.valorTransaccion = 1;
+
         afn3.transiciones.add(transicion5);
         afn3.transiciones.add(transicion6);
 
@@ -88,6 +94,8 @@ public class Thompson {
 
         Transicion transicion1 = new Transicion(estado1temp, 'ε', afn1.transiciones.get(0).estadoInicial);
 
+        transicion1.valorTransaccion = 2;
+
         afn2.transiciones.add(transicion1);
 
         for (Transicion t : afn1.transiciones) {
@@ -100,6 +108,10 @@ public class Thompson {
         Transicion transicion2 = new Transicion(ultimosEstadoAFN1, 'ε', estado2temp);
         Transicion transicion3 = new Transicion(ultimosEstadoAFN1, 'ε', afn1.transiciones.get(0).estadoInicial);
         Transicion transicion4 = new Transicion(estado1temp, 'ε', estado2temp);
+
+        transicion2.valorTransaccion = 2;
+        transicion3.valorTransaccion = 2;
+        transicion4.valorTransaccion = 2;
 
         afn2.transiciones.add(transicion2);
         afn2.transiciones.add(transicion3);
@@ -159,7 +171,7 @@ public class Thompson {
 
                 stack.push(temporal);
 
-                System.out.println("Push simbolo: " + temporal);
+                // System.out.println("Push simbolo: " + temporal);
 
             } else {
 
