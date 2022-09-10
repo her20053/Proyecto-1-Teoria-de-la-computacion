@@ -16,7 +16,7 @@ class Main {
 
         String postfix = Postfix.infixToPostfix(expresionRegular);
 
-        System.out.println("Expresion postfix: " + postfix + "\n");
+        System.out.println("\nExpresion postfix: " + postfix + "\n");
 
         // ------------------------------------------------------------------
 
@@ -35,6 +35,9 @@ class Main {
         // Subconjuntos
 
         Subconjuntos subconjunto = new Subconjuntos(afnFinal);
+
+        System.out.println("\nSubconjuntos");
+        subconjunto.obtenerEclosures();
 
         // ------------------------------------------------------------------
 
