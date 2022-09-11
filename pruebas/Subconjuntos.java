@@ -1,10 +1,17 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Subconjuntos {
 
     public AFN afn;
+
     ArrayList<ArrayList<Integer>> estados = new ArrayList<ArrayList<Integer>>();
+
+    ArrayList<Integer> listaTransiciones = new ArrayList<Integer>();
+
+    AFD afd = new AFD();
 
     public Subconjuntos(AFN afn) {
         this.afn = afn;
@@ -42,9 +49,10 @@ public class Subconjuntos {
             }
         }
 
-        System.out.println(eclosure);
+        // System.out.println(eclosure);
+        // System.out.println(eclosure.size());
         for (int i = 0; i < eclosure.size(); i++) {
-            System.out.println("i" + eclosure.get(i));
+            // System.out.println("i" + eclosure.get(i));
             estado.add(eclosure.get(i));
             for (Transicion t : afn.transiciones) {
                 if (t.estadoInicial == eclosure.get(i)) {
@@ -53,11 +61,17 @@ public class Subconjuntos {
                     }
                 }
             }
-            eclosure.remove(i);
+
+            // System.out.println("Removiendo: " + eclosure.get(0));
+            // eclosure.remove(0);
+            // eclosure.remove(eclosure.get(i));
+            // System.out.println(eclosure.get(i));
         }
 
-        System.out.println(eclosure);
-        System.out.println(estado);
+        eclosure.clear();
+
+        // System.out.println(eclosure);
+        // System.out.println(estado);
 
         Collections.sort(estado);
         boolean existe = estados.contains(estado);
@@ -65,39 +79,108 @@ public class Subconjuntos {
             estados.add(estado);
         }
 
-        obtenerMoves(estado);
+        obtenerMoves(estado, estado);
     }
 
     // metodo para obtener los moves de cada estado
     // se necesita la lista del estado obtenido anteriormente como parametro
-    public void obtenerMoves(ArrayList<Integer> estado) {
+    public void obtenerMoves(ArrayList<Integer> estado, ArrayList<Integer> eclosureList) {
 
-        ArrayList<Integer> nuevoEstado = new ArrayList<Integer>();
+        ArrayList<Transicion> transicionesAceptadas = new ArrayList<Transicion>();
 
-        for (Integer i : estado) {
+        for (Integer i : eclosureList) {
+
+            for (Transicion t : afn.transiciones) {
+
+                if (t.estadoInicial == i) {
+                    // t.mostrarTransicion();
+
+                    if (t.valor != 'ε') {
+
+                        // System.out.println("Agregada transicion:");
+                        // t.mostrarTransicion();
+                        transicionesAceptadas.add(t);
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        // System.out.println(transicionesAceptadas);
+
+        HashMap<Character, ArrayList<Integer>> diccionario = new HashMap<Character, ArrayList<Integer>>();
+
+        for (Transicion t : transicionesAceptadas) {
+
+            diccionario.put(t.valor, new ArrayList<Integer>());
+
+        }
+
+        for (Transicion t : transicionesAceptadas) {
+
+            ArrayList<Integer> temp = diccionario.get(t.valor);
+            temp.add(t.estadoFinal);
+            diccionario.put(t.valor, temp);
+
+        }
+
+        // System.out.println(diccionario);
+
+        for (Map.Entry<Character, ArrayList<Integer>> entry : diccionario.entrySet()) {
+            Character key = entry.getKey();
+            ArrayList<Integer> value = entry.getValue();
+            // System.out.println(key + "=" + value);
+            Transicion transTemp = new Transicion(estado, key, value);
+
+            estados.add(value);
+
+            // transTemp.mostrarTransicion2();
+            afd.transiciones.add(transTemp);
+        }
+
+        afd.mostrarAFD2();
+        // System.out.println(estados);
+        estados.remove(estado);
+
+        listaTransiciones.clear();
+
+        System.out.println("SIZE ACTUAL: " + estados.size());
+        while (estados.size() != 0) {
+
+            for (ArrayList<Integer> arr : estados) {
+
+                eclosure(arr);
+
+            }
+
+        }
+
+    }
+
+    public void eclosure(ArrayList<Integer> estado2) {
+
+        System.out.println(estados);
+        System.out.println("Estado 2: " + estado2);
+
+        for (Integer i : estado2) {
+            listaTransiciones.add(i);
             for (Transicion t : afn.transiciones) {
                 if (t.estadoInicial == i) {
-                    if (t.valor != 'ε') {
-                        // No esta sirviendo porque agrega a estados unas listas vacias en vez de las
-                        // listas que contienen al 1 y al 3
-                        // Esto tampoco serviria con todos los casos porque hay casos en que a y b se
-                        // mueven hacia varios estados no solo uno (cambiar a futuro)
-                        System.out.println(t.valor + " " + t.estadoFinal);
-                        nuevoEstado.add(t.estadoFinal);
-                        Collections.sort(nuevoEstado);
-                        System.out.println(nuevoEstado);
-                        boolean existe = estados.contains(nuevoEstado);
-                        System.out.println(existe);
-
-                        estados.add(nuevoEstado);
-
-                        nuevoEstado.clear();
+                    if (t.valor == 'ε') {
+                        ArrayList<Integer> arr = new ArrayList<Integer>();
+                        arr.add(t.estadoFinal);
+                        eclosure(arr);
                     }
                 }
             }
         }
 
-        System.out.println(estados);
+        System.out.println(listaTransiciones);
+        obtenerMoves(estado2, listaTransiciones);
+
     }
 
 }

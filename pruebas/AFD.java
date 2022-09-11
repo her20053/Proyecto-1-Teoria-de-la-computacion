@@ -20,4 +20,15 @@ public class AFD {
 
   }
 
+  public void mostrarAFD2() {
+    for (Transicion t : transiciones) {
+
+      System.out.print("[" + t.estadosInicial + ", ");
+      System.out.print(t.valor + ", ");
+      System.out.print(t.estadosFinal + "]");
+      System.out.println();
+
+    }
+  }
+
 }

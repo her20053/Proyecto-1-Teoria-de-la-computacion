@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Transicion {
 
     public int estadoInicial;
@@ -5,10 +7,27 @@ public class Transicion {
     public char valor;
     public int valorTransaccion;
 
+    public ArrayList<Integer> estadosInicial;
+    public ArrayList<Integer> estadosFinal;
+
     public Transicion(int estado1, char c, int estado2) {
         this.estadoInicial = estado1;
         this.estadoFinal = estado2;
         this.valor = c;
+    }
+
+    public Transicion(ArrayList<Integer> estadosIncial, char c, ArrayList<Integer> estadosFinal) {
+        this.estadosInicial = estadosIncial;
+        this.estadosFinal = estadosFinal;
+        this.valor = c;
+    }
+
+    public void mostrarTransicion() {
+        System.out.println("[" + estadoInicial + "," + valor + "," + estadoFinal + "]");
+    }
+
+    public void mostrarTransicion2() {
+        System.out.println("[" + estadosInicial + "," + valor + "," + estadosFinal + "]");
     }
 
 }
