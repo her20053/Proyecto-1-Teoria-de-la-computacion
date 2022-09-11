@@ -3,6 +3,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+// Se necesita agregar recurrsividad al primer eclosure:
+
 public class Subconjuntos {
 
     public AFN afn;
@@ -135,7 +137,17 @@ public class Subconjuntos {
             // System.out.println(key + "=" + value);
             Transicion transTemp = new Transicion(estado, key, value);
 
-            estados.add(value);
+            for (ArrayList<Integer> arr : estados) {
+
+                System.out.println(arr);
+
+                // for(ArrayList<Integer> arr2: arr){
+
+                // if(arr2 == value){}
+
+                // }
+                estados.add(value);
+            }
 
             // transTemp.mostrarTransicion2();
             afd.transiciones.add(transTemp);
@@ -147,16 +159,16 @@ public class Subconjuntos {
 
         listaTransiciones.clear();
 
-        System.out.println("SIZE ACTUAL: " + estados.size());
-        while (estados.size() != 0) {
+        // System.out.println("SIZE ACTUAL: " + estados.size());
+        // while (estados.size() != 0) {
 
-            for (ArrayList<Integer> arr : estados) {
+        // for (ArrayList<Integer> arr : estados) {
 
-                eclosure(arr);
+        // eclosure(arr);
 
-            }
+        // }
 
-        }
+        // }
 
     }
 
