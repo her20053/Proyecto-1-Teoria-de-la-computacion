@@ -30,4 +30,8 @@ public class Transicion {
         System.out.println("[" + estadosInicial + "," + valor + "," + estadosFinal + "]");
     }
 
+    public String toString() {
+        return "[" + estadoInicial + "," + valor + "," + estadoFinal + "]";
+    }
+
 }

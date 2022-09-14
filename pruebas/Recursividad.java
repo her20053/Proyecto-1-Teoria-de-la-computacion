@@ -10,6 +10,7 @@ public class Recursividad {
 
         formarAFN();
         obtenerUltimo(0);
+        System.out.println(afn);
         System.out.println(listaTransiciones);
 
     }

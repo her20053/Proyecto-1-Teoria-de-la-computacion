@@ -9,6 +9,7 @@ class Main {
         // String expresionRegular = "a.a*.b*.(a|b)(a|b.a*.b*.(a|b))*";
         // String expresionRegular = "((a|b)*.a.(a|b)*.a.(a|b)*)*b";
         String expresionRegular = "(a|b)*.a.b.b";
+        // String expresionRegular = "(a*|b*)*";
 
         // ------------------------------------------------------------------
 
@@ -16,7 +17,7 @@ class Main {
 
         String postfix = Postfix.infixToPostfix(expresionRegular);
 
-        System.out.println("\nExpresion postfix: " + postfix + "\n");
+        // System.out.println("\nExpresion postfix: " + postfix + "\n");
 
         // ------------------------------------------------------------------
 
@@ -26,18 +27,24 @@ class Main {
 
         AFN afnFinal = thompson.analizarPostfix();
 
-        System.out.println("AFN generado por Thompson: \n");
+        // System.out.println("AFN generado por Thompson: \n");
 
-        afnFinal.mostrarAFN();
+        // afnFinal.mostrarAFN();
 
         // ------------------------------------------------------------------
 
         // Subconjuntos
 
-        Subconjuntos subconjunto = new Subconjuntos(afnFinal);
+        // Subconjuntos subconjunto = new Subconjuntos(afnFinal);
 
-        System.out.println("\nSubconjuntos");
-        subconjunto.obtenerEclosures();
+        // System.out.println("\nSubconjuntos");
+        // subconjunto.obtenerEclosures();
+
+        AFN afnReorganizado = Eclosure.reOrganizarAFN(afnFinal);
+
+        // System.out.println(afnReorganizado);
+
+        AFD afd = Eclosure.convertirAFN(afnReorganizado);
 
         // ------------------------------------------------------------------
 

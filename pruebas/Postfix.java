@@ -38,9 +38,6 @@ public class Postfix {
 
             // System.out.println(result);
             // System.out.print("Operandos en stack: ");
-            for (char c : stack) {
-                // System.out.print(c + " ");
-            }
             // System.out.println();
 
             char c = exp.charAt(i);

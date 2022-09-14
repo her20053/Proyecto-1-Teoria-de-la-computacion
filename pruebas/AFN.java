@@ -20,4 +20,34 @@ public class AFN {
 
     }
 
+    public String toString() {
+
+        String result = "";
+
+        for (Transicion t : transiciones) {
+
+            result += "[" + t.estadoInicial + ", " + t.valor + ", " + t.estadoFinal + "]" + "\n";
+
+        }
+
+        return result;
+
+    }
+
+    public ArrayList<Character> obtenerListaCaracteres() {
+
+        ArrayList<Character> result = new ArrayList<Character>();
+
+        for (Transicion t : transiciones) {
+
+            if (!result.contains(t.valor) && t.valor != 'ε') {
+                result.add(t.valor);
+            }
+
+        }
+
+        return result;
+
+    }
+
 }
