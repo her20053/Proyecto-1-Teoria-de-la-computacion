@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Map;
 
 class Main {
 
@@ -17,7 +19,7 @@ class Main {
 
         String postfix = Postfix.infixToPostfix(expresionRegular);
 
-        // System.out.println("\nExpresion postfix: " + postfix + "\n");
+        System.out.println("\nExpresion postfix: " + postfix + "\n");
 
         // ------------------------------------------------------------------
 
@@ -45,6 +47,25 @@ class Main {
         // System.out.println(afnReorganizado);
 
         AFD afd = Eclosure.convertirAFN(afnReorganizado);
+        // System.out.println(Eclosure.estadosGenerados);
+        // System.out.println(Eclosure.diccionarioEstadosGenerados);
+
+        for (Map.Entry<String, ArrayList<Integer>> entrada : Eclosure.diccionarioEstadosGenerados.entrySet()) {
+            // System.out.println(vectorAlfabeto[Integer.parseInt(entrada.getKey())] + " = "
+            // + entrada.getValue());
+            System.out.println(entrada.getKey() + " = " + entrada.getValue());
+
+        }
+
+        String alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        char[] vectorAlfabeto = alfabeto.toCharArray();
+        int indiceActual = 0;
+        for (Map.Entry<String, ArrayList<Integer>> entrada : Eclosure.diccionarioEstadosGenerados.entrySet()) {
+            // System.out.println(vectorAlfabeto[Integer.parseInt(entrada.getKey())] + " = "
+            // + entrada.getValue());
+            System.out.println(vectorAlfabeto[indiceActual] + " = " + entrada.getValue());
+            indiceActual++;
+        }
 
         // ------------------------------------------------------------------
 

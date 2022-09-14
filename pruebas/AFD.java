@@ -1,34 +1,14 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AFD {
-
-  public ArrayList<Transicion> transiciones = new ArrayList<Transicion>();
 
   public AFD() {
   }
 
-  public void mostrarAFD() {
+  public void agregarNuevoEstado(int EClosure, ArrayList<Integer> transiciones,
+      HashMap<String, ArrayList<Integer>> movimientos) {
 
-    for (Transicion t : transiciones) {
-
-      System.out.print("[" + t.estadoInicial + ", ");
-      System.out.print(t.valor + ", ");
-      System.out.print(t.estadoFinal + "]");
-      System.out.println();
-
-    }
-
-  }
-
-  public void mostrarAFD2() {
-    for (Transicion t : transiciones) {
-
-      System.out.print("[" + t.estadosInicial + ", ");
-      System.out.print(t.valor + ", ");
-      System.out.print(t.estadosFinal + "]");
-      System.out.println();
-
-    }
   }
 
 }

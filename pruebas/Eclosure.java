@@ -11,6 +11,7 @@ public class Eclosure {
     static ArrayList<Integer> listaTransiciones = new ArrayList<Integer>();
 
     static ArrayList<ArrayList<Integer>> estadosGenerados = new ArrayList<ArrayList<Integer>>();
+    static HashMap<String, ArrayList<Integer>> diccionarioEstadosGenerados = new HashMap<String, ArrayList<Integer>>();
 
     static Scanner sc = new Scanner(System.in);
 
@@ -88,11 +89,20 @@ public class Eclosure {
         obtenerUltimo(estado);
         // Ordenamos la lista para una mejor comprension:
         Collections.sort(listaTransiciones);
+
         System.out.println("E-Closure:(" + estado + "): {" + listaTransiciones + "}");
         // System.out.println(listaTransiciones);
         // En teoria ya tenemos nuestro primer estado por lo que lo agregamos a la lista
         // de EstadosGenerados:
-        estadosGenerados.add(listaTransiciones);
+        // System.out.println(listaTransiciones);
+
+        ArrayList<Integer> arrTrasicionesTemporal = new ArrayList<Integer>();
+        for (Integer i : listaTransiciones) {
+            arrTrasicionesTemporal.add(i);
+        }
+
+        estadosGenerados.add(arrTrasicionesTemporal);
+        diccionarioEstadosGenerados.put(Integer.toString(estado), arrTrasicionesTemporal);
         // Ahora que tenemos los estados, necesitamos ver con los caracteres posibles
         // del afn a donde conectan, para formar los nuevos estados:
 
@@ -145,11 +155,27 @@ public class Eclosure {
         obtenerUltimo(estado);
         // Ordenamos la lista para una mejor comprension:
         Collections.sort(listaTransiciones);
-        System.out.println("\nE-Closure:(" + estado + "): {" + listaTransiciones + "}");
         // System.out.println(listaTransiciones);
+        System.out.println("\nE-Closure:(" + estado + "): {" + listaTransiciones + "}");
         // En teoria ya tenemos nuestro primer estado por lo que lo agregamos a la lista
         // de EstadosGenerados:
-        estadosGenerados.add(listaTransiciones);
+        // if (estadosGenerados.contains(listaTransiciones)) {
+        // return;
+        // }
+        // System.out.println(listaTransiciones);
+
+        ArrayList<Integer> arrTrasicionesTemporal = new ArrayList<Integer>();
+        for (Integer i : listaTransiciones) {
+            arrTrasicionesTemporal.add(i);
+        }
+
+        if (estadosGenerados.contains(arrTrasicionesTemporal)) {
+            System.out.println("Lista de estados ya generada previamente...");
+            return;
+        }
+
+        estadosGenerados.add(arrTrasicionesTemporal);
+        diccionarioEstadosGenerados.put(Integer.toString(estado), arrTrasicionesTemporal);
         // Ahora que tenemos los estados, necesitamos ver con los caracteres posibles
         // del afn a donde conectan, para formar los nuevos estados:
 
@@ -178,6 +204,12 @@ public class Eclosure {
         for (Map.Entry<Character, ArrayList<Integer>> entrada : diccionarioMovimientos.entrySet()) {
             System.out.println(
                     "Move(E-Closure(" + estado + ") , " + entrada.getKey() + " ) = {" + entrada.getValue() + "}");
+        }
+
+        for (Map.Entry<Character, ArrayList<Integer>> entrada : diccionarioMovimientos.entrySet()) {
+            for (Integer numero : entrada.getValue()) {
+                eClosureGen(numero);
+            }
         }
         // System.out.println(diccionarioMovimientos);
     }

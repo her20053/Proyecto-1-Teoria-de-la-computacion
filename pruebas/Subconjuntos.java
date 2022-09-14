@@ -153,7 +153,7 @@ public class Subconjuntos {
             afd.transiciones.add(transTemp);
         }
 
-        afd.mostrarAFD2();
+        // afd.mostrarAFD2();
         // System.out.println(estados);
         estados.remove(estado);
 
