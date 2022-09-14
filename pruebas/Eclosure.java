@@ -8,10 +8,12 @@ public class Eclosure {
 
     static AFN afn = new AFN();
 
+    static AFD afd = new AFD();
+
     static ArrayList<Integer> listaTransiciones = new ArrayList<Integer>();
 
     static ArrayList<ArrayList<Integer>> estadosGenerados = new ArrayList<ArrayList<Integer>>();
-    static HashMap<String, ArrayList<Integer>> diccionarioEstadosGenerados = new HashMap<String, ArrayList<Integer>>();
+    static HashMap<ArrayList<Integer>, ArrayList<Integer>> diccionarioEstadosGenerados = new HashMap<ArrayList<Integer>, ArrayList<Integer>>();
 
     static Scanner sc = new Scanner(System.in);
 
@@ -90,7 +92,8 @@ public class Eclosure {
         // Ordenamos la lista para una mejor comprension:
         Collections.sort(listaTransiciones);
 
-        System.out.println("E-Closure:(" + estado + "): {" + listaTransiciones + "}");
+        // System.out.println("E-Closure:(" + estado + "): {" + listaTransiciones +
+        // "}");
         // System.out.println(listaTransiciones);
         // En teoria ya tenemos nuestro primer estado por lo que lo agregamos a la lista
         // de EstadosGenerados:
@@ -102,7 +105,9 @@ public class Eclosure {
         }
 
         estadosGenerados.add(arrTrasicionesTemporal);
-        diccionarioEstadosGenerados.put(Integer.toString(estado), arrTrasicionesTemporal);
+        ArrayList<Integer> tempo = new ArrayList<Integer>();
+        tempo.add(estado);
+        diccionarioEstadosGenerados.put(tempo, arrTrasicionesTemporal);
         // Ahora que tenemos los estados, necesitamos ver con los caracteres posibles
         // del afn a donde conectan, para formar los nuevos estados:
 
@@ -114,6 +119,7 @@ public class Eclosure {
                 for (Integer i : listaTransiciones) {
                     if (transicion.estadoInicial == i && transicion.valor == c) {
                         // System.out.println(transicion);
+
                         if (diccionarioMovimientos.containsKey(c)) {
                             diccionarioMovimientos.get(c).add(transicion.estadoFinal);
                         } else {
@@ -126,11 +132,15 @@ public class Eclosure {
             }
         }
 
+        // Transicion movimientoDireccion = new Transicion(tempo, c, estadosFinal)
+
         // Para este punto el diccionario de movimientos se lleno con las posibilidades
         // de todos los caracteres: {a=[4, 8], b=[5]} o {a=[5], b=[8]}
         for (Map.Entry<Character, ArrayList<Integer>> entrada : diccionarioMovimientos.entrySet()) {
-            System.out.println(
-                    "Move(E-Closure(" + estado + ") , " + entrada.getKey() + " ) = {" + entrada.getValue() + "}");
+            Transicion moviDireccion = new Transicion(tempo, entrada.getKey(), entrada.getValue());
+            afd.transiciones.add(moviDireccion);
+            // System.out.println("Move(E-Closure(" + estado + ") , " + entrada.getKey() + "
+            // ) = {" + entrada.getValue() + "}");
         }
         // System.out.println(diccionarioMovimientos);
 
@@ -141,22 +151,26 @@ public class Eclosure {
         // entrada:
 
         for (Map.Entry<Character, ArrayList<Integer>> entrada : diccionarioMovimientos.entrySet()) {
-            for (Integer numero : entrada.getValue()) {
-                eClosureGen(numero);
-            }
+            // for (Integer numero : entrada.getValue()) {
+            // eClosureGen(numero);
+            // }
+            eClosureGen(entrada.getValue());
         }
 
-        return null;
+        return afd;
     }
 
-    public static void eClosureGen(int estado) {
+    public static void eClosureGen(ArrayList<Integer> estados) {
         listaTransiciones.clear();
         // COmenzamos la recurrsividad para llenar la lista:
-        obtenerUltimo(estado);
+        for (Integer i : estados) {
+            obtenerUltimo(i);
+        }
         // Ordenamos la lista para una mejor comprension:
         Collections.sort(listaTransiciones);
         // System.out.println(listaTransiciones);
-        System.out.println("\nE-Closure:(" + estado + "): {" + listaTransiciones + "}");
+        // System.out.println("\nE-Closure:(" + estados + "): {" + listaTransiciones +
+        // "}");
         // En teoria ya tenemos nuestro primer estado por lo que lo agregamos a la lista
         // de EstadosGenerados:
         // if (estadosGenerados.contains(listaTransiciones)) {
@@ -170,12 +184,12 @@ public class Eclosure {
         }
 
         if (estadosGenerados.contains(arrTrasicionesTemporal)) {
-            System.out.println("Lista de estados ya generada previamente...");
+            // System.out.println("Lista de estados ya generada previamente...");
             return;
         }
 
         estadosGenerados.add(arrTrasicionesTemporal);
-        diccionarioEstadosGenerados.put(Integer.toString(estado), arrTrasicionesTemporal);
+        diccionarioEstadosGenerados.put(estados, arrTrasicionesTemporal);
         // Ahora que tenemos los estados, necesitamos ver con los caracteres posibles
         // del afn a donde conectan, para formar los nuevos estados:
 
@@ -202,14 +216,17 @@ public class Eclosure {
         // Para este punto el diccionario de movimientos se lleno con las posibilidades
         // de todos los caracteres: {a=[4, 8], b=[5]} o {a=[5], b=[8]}
         for (Map.Entry<Character, ArrayList<Integer>> entrada : diccionarioMovimientos.entrySet()) {
-            System.out.println(
-                    "Move(E-Closure(" + estado + ") , " + entrada.getKey() + " ) = {" + entrada.getValue() + "}");
+            Transicion moviDireccion = new Transicion(estados, entrada.getKey(), entrada.getValue());
+            afd.transiciones.add(moviDireccion);
+            // System.out.println("Move(E-Closure(" + estados + ") , " + entrada.getKey() +
+            // " ) = {" + entrada.getValue() + "}");
         }
 
         for (Map.Entry<Character, ArrayList<Integer>> entrada : diccionarioMovimientos.entrySet()) {
-            for (Integer numero : entrada.getValue()) {
-                eClosureGen(numero);
-            }
+            // for (Integer numero : entrada.getValue()) {
+            // eClosureGen(numero);
+            // }
+            eClosureGen(entrada.getValue());
         }
         // System.out.println(diccionarioMovimientos);
     }
