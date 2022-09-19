@@ -38,14 +38,25 @@ public class Tree {
             }
         }
         Collections.reverse(listaNodos);
+        System.out.println(listaNodos.size());
         for( int i =0; i < parts.length; i++){
             Node nodotemp = listaNodos.get(i);
             if(nodotemp.data == '.'){
                 Node nodotemp2 = listaNodos.get(i+1);
                 Node nodotemp3 = listaNodos.get(i+2);
                 
-                nodotemp.right = nodotemp2;
-                nodotemp.left = nodotemp3;
+                if(nodotemp2.data == '*'){
+                    Node nodotemp4 = listaNodos.get(i+3);
+                    nodotemp.right = nodotemp2;
+                    nodotemp.left = nodotemp4;
+
+                    
+
+                }
+                else{
+                    nodotemp.right = nodotemp2;
+                    nodotemp.left = nodotemp3;
+                }
 
             }
             else if(nodotemp.data == '|'){
@@ -99,29 +110,19 @@ public class Tree {
             
         }
     }
+    public void printcaracteres(){
+        for( int i = 0; i < listaNodos.size(); i++){
+            Node nodotemp = listaNodos.get(i);
+            System.out.println(nodotemp.data);
+        }
+    }
     public static void main(String[] args) {
 
-        Tree arbol = new Tree("a*b*|*#.");
+        Tree arbol = new Tree(" ab*.a.b*.#.");
         arbol.CreateTree();
         arbol.printArbol();
+        arbol.printcaracteres();
 
-        // Our example tree looks like this:
-        //         2
-        //       /   \
-        //      3     4
-        //     / \
-        //    5   6
-
-        // Node node2 = new Node("2");
-        // Node node3 = new Node("2");
-        // Node node4 = new Node("2");
-        // Node node5 = new Node("2");
-        // Node node6 = new Node("1");
-
-        // node2.left = node3;
-        // node2.right = node4;
-        // node3.left = node5;
-        // node3.right = node6;
         
     }
 
