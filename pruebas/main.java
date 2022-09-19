@@ -13,7 +13,8 @@ class Main {
         // String expresionRegular = "((a|b)*.a.(a|b)*.a.(a|b)*)*b";
         // String expresionRegular = "(a|b)*.a.b.b";
         // String expresionRegular = "(a*|b*)*";
-        String expresionRegular = "a.b*.a.b*";
+        // String expresionRegular = "a.b*.a.b*";
+        String expresionRegular = "(a|b)*.a.b.b";
         // String expresionRegular = "(a|b)*.((a|(b.b))*)";
 
         // ------------------------------------------------------------------
