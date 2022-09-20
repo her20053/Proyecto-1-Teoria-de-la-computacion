@@ -3,11 +3,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Tree {
     ArrayList<Node> listaNodos = new ArrayList<Node>();
     // ArrayList<Node> listaNodos = new ArrayList<Node>();
-    HashMap<Integer, ArrayList<Integer>> tabla = new HashMap<Integer, ArrayList<Integer>>();
+    HashMap<Integer, ArrayList<Node>> tabla = new HashMap<Integer, ArrayList<Node>>();
     public String expresion;
     public int contador = 1;
 
@@ -323,8 +324,87 @@ public class Tree {
         arbol.loadRules();
         arbol.llenarDiccionarioFollows();
         System.out.println(arbol.tabla);
+        arbol.construccionAFD();
         // arbol.printArbol();
         // arbol.printcaracteres();
+
+    }
+
+    public ArrayList<Character> obtenerListaCaracteres() {
+
+        ArrayList<Character> result = new ArrayList<Character>();
+
+        for (Node t : listaNodos) {
+
+            if (!result.contains(t.data) && t.numnode != 0 && t.data != '#') {
+                result.add(t.data);
+            }
+
+        }
+
+        return result;
+
+    }
+
+    public AFD construccionAFD() {
+
+        // {1=[1, 2, 3], 2=[1, 2, 3], 3=[4], 4=[5], 5=[6]}
+
+        // Obtenemos siempre el primer estado 1:
+
+        ArrayList<Node> FPestadoInicial = tabla.get(1);
+
+        // Obtenemos todos los characteres posibles en el AFD:
+        ArrayList<Character> listaCaracteres = obtenerListaCaracteres();
+
+        // Ahora creamos una ArrayList<Nodes> para cada caracter y la almacenamos en un
+        // Hashmap:
+        HashMap<Character, ArrayList<ArrayList<Node>>> mapaMovimientos = new HashMap<Character, ArrayList<ArrayList<Node>>>();
+        for (char c : listaCaracteres) {
+            mapaMovimientos.put(c, new ArrayList<ArrayList<Node>>());
+        }
+
+        // Recorremos su followpos para almacenar movimientos y nuevos estados:
+        for (Node n : FPestadoInicial) {
+
+            // Llenamos el diccionario con los caracteres y sus movimientos con los
+            // followPos de cada uno:
+            if (mapaMovimientos.containsKey(n.data)) {
+                mapaMovimientos.get(n.data).add(n.followPos);
+            } else {
+                ArrayList<ArrayList<Node>> temp = new ArrayList<ArrayList<Node>>();
+                temp.add(n.followPos);
+                mapaMovimientos.put(n.data, temp);
+            }
+
+        }
+
+        // System.out.println(mapaMovimientos);
+        // {a=[[1, 2, 3], [4]], b=[[1, 2, 3]]}
+
+        // Revisamos si se generan nuevos estados:
+        for (Map.Entry<Character, ArrayList<ArrayList<Node>>> mov : mapaMovimientos.entrySet()) {
+            if (mov.getValue().size() > 1) {
+                ArrayList<Node> nuevo = new ArrayList<Node>();
+                for (ArrayList<Node> Listnode : mov.getValue()) {
+                    // System.out.println(Listnode);
+                    nuevo.addAll(Listnode);
+                }
+                // System.out.println(nuevo);
+                // [1, 2, 3, 4]
+                for (int i = 1; i < mov.getValue().size(); i++) {
+                    mov.getValue().remove(i);
+                }
+                // System.out.println(mov.getValue());
+                // [[1, 2, 3]]
+                mov.getValue().add(nuevo);
+            }
+        }
+
+        System.out.println("Para: " + FPestadoInicial + " ( 1 ) sus estados son: " + mapaMovimientos);
+        // {a=[[1, 2, 3], [1, 2, 3, 4]], b=[[1, 2, 3]]}
+
+        return null;
 
     }
 
@@ -348,9 +428,9 @@ public class Tree {
             // ArrayList<Integer>>();
 
             if (nodotemp.followPos.size() != 0) {
-                ArrayList<Integer> temporal = new ArrayList<>();
+                ArrayList<Node> temporal = new ArrayList<>();
                 for (Node n : nodotemp.followPos) {
-                    temporal.add(n.numnode);
+                    temporal.add(n);
                 }
                 tabla.put(nodotemp.numnode, temporal);
             }
