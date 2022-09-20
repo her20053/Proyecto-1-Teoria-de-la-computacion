@@ -350,9 +350,12 @@ public class Tree {
 
         // {1=[1, 2, 3], 2=[1, 2, 3], 3=[4], 4=[5], 5=[6]}
 
+        System.out.println(listaNodos);
+
         // Obtenemos siempre el primer estado 1:
 
-        ArrayList<Node> FPestadoInicial = tabla.get(1);
+        ArrayList<Node> FPestadoInicial = listaNodos.get(listaNodos.size() - 1).firstPos;
+        // System.out.println(listaNodos.get(listaNodos.size() - 1).firstPos);
 
         // Obtenemos todos los characteres posibles en el AFD:
         ArrayList<Character> listaCaracteres = obtenerListaCaracteres();
@@ -380,7 +383,7 @@ public class Tree {
         }
 
         // System.out.println(mapaMovimientos);
-        // {a=[[1, 2, 3], [4]], b=[[1, 2, 3]]}
+        // {a=[[1, 2, 3], [4], [5]], b=[[1, 2, 3]]}
 
         // Revisamos si se generan nuevos estados:
         for (Map.Entry<Character, ArrayList<ArrayList<Node>>> mov : mapaMovimientos.entrySet()) {
@@ -398,6 +401,7 @@ public class Tree {
                 // System.out.println(mov.getValue());
                 // [[1, 2, 3]]
                 mov.getValue().add(nuevo);
+
             }
         }
 
