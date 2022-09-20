@@ -6,37 +6,13 @@ import java.util.HashMap;
 
 public class Tree {
     ArrayList<Node> listaNodos = new ArrayList<Node>();
+    // ArrayList<Node> listaNodos = new ArrayList<Node>();
     HashMap<Integer, ArrayList<Integer>> tabla = new HashMap<Integer, ArrayList<Integer>>();
     public String expresion;
     public int contador = 1;
 
     public Tree(String expresion) {
         this.expresion = expresion;
-    }
-
-    public void loadTable(Node n) {
-
-        if (n.numnode != 0) {
-            // System.out.println("Nodo: " + n.numnode);
-            // System.out.println("Nodo: " + n.followPos);
-            // tabla.put(n.numnode, obtenerInts(n.followPos));
-        }
-
-        // System.out.println("tabla");
-        // System.out.println(tabla);
-
-    }
-
-    public ArrayList<Integer> obtenerInts(ArrayList<Node> followpos) {
-        ArrayList<Integer> ints = new ArrayList<Integer>();
-        // System.out.println("followpos" + followpos);
-        for (Node nodo : followpos) {
-            // System.out.println("nodo" + nodo.numnode);
-            ints.add(nodo.numnode);
-        }
-        // System.out.println("ints");
-        // System.out.println(ints);
-        return ints;
     }
 
     public ArrayList<Node> followPos(Node n) {
@@ -57,7 +33,10 @@ public class Tree {
                 }
 
             }
-            System.out.println("copiaFinal" + copiaFinal);
+            // System.out.println("copiaFinal" + copiaFinal);
+            for (Node nod : copiaFinal) {
+                // System.out.println(nod.followPos);
+            }
             return copiaFinal;
         }
 
@@ -76,8 +55,8 @@ public class Tree {
                 }
                 // System.out.println(temp);
             }
-            System.out.println("tempFinal" + tempFinal);
-            return tempFinal;
+            // System.out.println("tempFinal" + tempFinal);
+            // return tempFinal;
         }
         return null;
 
@@ -342,8 +321,40 @@ public class Tree {
         Tree arbol = new Tree("ab|*a.b.b.#.");
         arbol.CreateTree();
         arbol.loadRules();
+        arbol.llenarDiccionarioFollows();
+        System.out.println(arbol.tabla);
         // arbol.printArbol();
         // arbol.printcaracteres();
+
+    }
+
+    public void llenarDiccionarioFollows() {
+
+        for (int i = 0; i < listaNodos.size(); i++) {
+            Node nodotemp = listaNodos.get(i);
+
+            // System.out.println(nodotemp.data);
+            // System.out.println("asdasd: " + nodotemp.firstPos);
+            // System.out.println("LastasdasdPos: " + nodotemp.lastPos);
+            // System.out.println("FollasdasdowPos: " + nodotemp.followPos);
+
+            // b
+            // FirstPos: [5]
+            // LastPos: [5]
+            // FollowPos: [6]
+            // Nodo .
+
+            // HashMap<Integer, ArrayList<Integer>> tabla = new HashMap<Integer,
+            // ArrayList<Integer>>();
+
+            if (nodotemp.followPos.size() != 0) {
+                ArrayList<Integer> temporal = new ArrayList<>();
+                for (Node n : nodotemp.followPos) {
+                    temporal.add(n.numnode);
+                }
+                tabla.put(nodotemp.numnode, temporal);
+            }
+        }
 
     }
 
@@ -354,7 +365,6 @@ public class Tree {
             firstPos(n);
             lastPos(n);
             followPos(n);
-            loadTable(n);
         }
     }
 
