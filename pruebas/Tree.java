@@ -2,14 +2,85 @@ import java.io.Console;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class Tree {
     ArrayList<Node> listaNodos = new ArrayList<Node>();
+    HashMap<Integer, ArrayList<Integer>> tabla = new HashMap<Integer, ArrayList<Integer>>();
     public String expresion;
     public int contador = 1;
 
     public Tree(String expresion) {
         this.expresion = expresion;
+    }
+
+    public void loadTable(Node n) {
+
+        if (n.numnode != 0) {
+            // System.out.println("Nodo: " + n.numnode);
+            // System.out.println("Nodo: " + n.followPos);
+            // tabla.put(n.numnode, obtenerInts(n.followPos));
+        }
+
+        // System.out.println("tabla");
+        // System.out.println(tabla);
+
+    }
+
+    public ArrayList<Integer> obtenerInts(ArrayList<Node> followpos) {
+        ArrayList<Integer> ints = new ArrayList<Integer>();
+        // System.out.println("followpos" + followpos);
+        for (Node nodo : followpos) {
+            // System.out.println("nodo" + nodo.numnode);
+            ints.add(nodo.numnode);
+        }
+        // System.out.println("ints");
+        // System.out.println(ints);
+        return ints;
+    }
+
+    public ArrayList<Node> followPos(Node n) {
+
+        if (n.data == '.') {
+            ArrayList<Node> copiaFinal = new ArrayList<Node>();
+            ArrayList<Node> first = n.left.lastPos;
+            ArrayList<Node> last = n.right.firstPos;
+            for (Node nodo : first) {
+                ArrayList<Node> copia = nodo.followPos;
+                for (Node nodo2 : last) {
+                    // nodo.followPos.add(nodo2);
+                    copia.add(nodo2);
+                    // System.out.println("copia" + copia);
+                    nodo.followPos = copia;
+                    // System.out.println("nodo" + nodo.followPos);
+                    copiaFinal = copia;
+                }
+
+            }
+            System.out.println("copiaFinal" + copiaFinal);
+            return copiaFinal;
+        }
+
+        if (n.data == '*') {
+            ArrayList<Node> tempFinal = new ArrayList<Node>();
+            ArrayList<Node> first = n.right.firstPos;
+            ArrayList<Node> last = n.right.lastPos;
+            for (Node nodo : first) {
+                ArrayList<Node> temp = new ArrayList<Node>();
+                for (Node nodo2 : last) {
+                    temp.add(nodo2);
+                    // System.out.println("temp" + temp);
+                    nodo.followPos = temp;
+                    // System.out.println("nodo" + nodo.followPos);
+                    tempFinal = temp;
+                }
+                // System.out.println(temp);
+            }
+            System.out.println("tempFinal" + tempFinal);
+            return tempFinal;
+        }
+        return null;
+
     }
 
     public Boolean nulleable(Node n) {
@@ -37,7 +108,7 @@ public class Tree {
     public ArrayList<Node> firstPos(Node n) {
 
         if (Character.isLetter(n.data) || n.data == '#') {
-            System.out.println("FP Se entro a char");
+            // System.out.println("FP Se entro a char");
             ArrayList<Node> temp = new ArrayList<Node>();
             temp.add(n);
             n.firstPos = temp;
@@ -45,7 +116,7 @@ public class Tree {
         }
 
         if (n.data == '|') {
-            System.out.println("FP Se entro a |");
+            // System.out.println("FP Se entro a |");
 
             ArrayList<Node> temp = new ArrayList<Node>();
             temp.add(n.left);
@@ -55,7 +126,7 @@ public class Tree {
         }
 
         if (n.data == '.') {
-            System.out.println("FP Se entro a .");
+            // System.out.println("FP Se entro a .");
 
             ArrayList<Node> temp = new ArrayList<Node>();
             if (nulleable(n.left)) {
@@ -77,7 +148,7 @@ public class Tree {
         }
 
         if (n.data == '*') {
-            System.out.println("FP Se entro a *");
+            // System.out.println("FP Se entro a *");
 
             ArrayList<Node> temp = new ArrayList<Node>();
             for (Node nod : firstPos(n.right)) {
@@ -94,7 +165,7 @@ public class Tree {
     public ArrayList<Node> lastPos(Node n) {
 
         if (Character.isLetter(n.data) || n.data == '#') {
-            System.out.println("LP Se entro a char");
+            // System.out.println("LP Se entro a char");
             ArrayList<Node> temp = new ArrayList<Node>();
             temp.add(n);
             n.lastPos = temp;
@@ -102,7 +173,7 @@ public class Tree {
         }
 
         if (n.data == '|') {
-            System.out.println("LP Se entro a |");
+            // System.out.println("LP Se entro a |");
             ArrayList<Node> temp = new ArrayList<Node>();
             temp.add(n.left);
             temp.add(n.right);
@@ -111,7 +182,7 @@ public class Tree {
         }
 
         if (n.data == '.') {
-            System.out.println("LP Se entro a .");
+            // System.out.println("LP Se entro a .");
             ArrayList<Node> temp = new ArrayList<Node>();
             if (nulleable(n.right)) {
                 for (Node nod : lastPos(n.left)) {
@@ -132,7 +203,7 @@ public class Tree {
         }
 
         if (n.data == '*') {
-            System.out.println("LP Se entro a *");
+            // System.out.println("LP Se entro a *");
             ArrayList<Node> temp = new ArrayList<Node>();
             for (Node nod : lastPos(n.right)) {
                 temp.add(nod);
@@ -165,18 +236,18 @@ public class Tree {
             } else if (true == Character.isLetter(dato)) {
                 Node node1 = new Node(dato);
                 node1.numnode = contador;
-                contador ++;
+                contador++;
                 listaNodos.add(node1);
             } else {
                 Node node1 = new Node('#');
                 node1.numnode = contador;
-                contador ++;
+                contador++;
                 listaNodos.add(node1);
             }
         }
         Collections.reverse(listaNodos);
-        System.out.println(listaNodos.size());
-        System.out.println(listaNodos);
+        // System.out.println(listaNodos.size());
+        // System.out.println(listaNodos);
         for (int i = 0; i < parts.length; i++) {
             Node nodotemp = listaNodos.get(i);
             if (nodotemp.data == '.') {
@@ -219,7 +290,7 @@ public class Tree {
     }
 
     public void printArbol() {
-        System.out.println(listaNodos);
+        // System.out.println(listaNodos);
         for (int i = 0; i < listaNodos.size(); i++) {
             Node nodotemp = listaNodos.get(i);
             System.out.println("Nodo " + nodotemp.data);
@@ -247,9 +318,10 @@ public class Tree {
             // firstPosTemp += n.data;
             // }
             // }
-
+            System.out.println(nodotemp.data);
             System.out.println("FirstPos: " + nodotemp.firstPos);
-            System.out.println("FirstPos: " + nodotemp.lastPos);
+            System.out.println("LastPos: " + nodotemp.lastPos);
+            System.out.println("FollowPos: " + nodotemp.followPos);
 
             // } catch (Exception e) {
             // }
@@ -266,11 +338,11 @@ public class Tree {
 
     public static void main(String[] args) {
 
-        Tree arbol = new Tree("ab*.a.b*.#.");
-        //Tree arbol = new Tree("ab|*a.b.b.#.");
+        // Tree arbol = new Tree("ab*.a.b*.#.");
+        Tree arbol = new Tree("ab|*a.b.b.#.");
         arbol.CreateTree();
         arbol.loadRules();
-        arbol.printArbol();
+        // arbol.printArbol();
         // arbol.printcaracteres();
 
     }
@@ -281,6 +353,8 @@ public class Tree {
             nulleable(n);
             firstPos(n);
             lastPos(n);
+            followPos(n);
+            loadTable(n);
         }
     }
 
@@ -295,6 +369,7 @@ class Node {
     public int numnode;
     public ArrayList<Node> firstPos = new ArrayList<Node>();
     public ArrayList<Node> lastPos = new ArrayList<Node>();
+    public ArrayList<Node> followPos = new ArrayList<Node>();
 
     Node(char data) {
         this.data = data;
