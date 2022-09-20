@@ -6,6 +6,7 @@ import java.util.Collections;
 public class Tree {
     ArrayList<Node> listaNodos = new ArrayList<Node>();
     public String expresion;
+    public int contador = 1;
 
     public Tree(String expresion) {
         this.expresion = expresion;
@@ -163,9 +164,13 @@ public class Tree {
                 listaNodos.add(node1);
             } else if (true == Character.isLetter(dato)) {
                 Node node1 = new Node(dato);
+                node1.numnode = contador;
+                contador ++;
                 listaNodos.add(node1);
             } else {
                 Node node1 = new Node('#');
+                node1.numnode = contador;
+                contador ++;
                 listaNodos.add(node1);
             }
         }
@@ -261,8 +266,8 @@ public class Tree {
 
     public static void main(String[] args) {
 
-        // Tree arbol = new Tree("ab*.a.b*.#.");
-        Tree arbol = new Tree("ab|*a.b.b.#.");
+        Tree arbol = new Tree("ab*.a.b*.#.");
+        //Tree arbol = new Tree("ab|*a.b.b.#.");
         arbol.CreateTree();
         arbol.loadRules();
         arbol.printArbol();
@@ -287,6 +292,7 @@ class Node {
     public Node right;
 
     public Boolean nulleable;
+    public int numnode;
     public ArrayList<Node> firstPos = new ArrayList<Node>();
     public ArrayList<Node> lastPos = new ArrayList<Node>();
 
@@ -295,7 +301,7 @@ class Node {
     }
 
     public String toString() {
-        return Character.toString(data);
+        return Integer.toString(numnode);
     }
 
 }
