@@ -239,9 +239,24 @@ public class Tree {
                 Node nodotemp3 = listaNodos.get(i + 2);
 
                 if (nodotemp2.data == '*') {
-                    Node nodotemp4 = listaNodos.get(i + 3);
-                    nodotemp.right = nodotemp2;
-                    nodotemp.left = nodotemp4;
+                    if(nodotemp3.data == '|'){
+                        for( int j = i; j < parts.length; j++ ){
+                            Node nodotemif = listaNodos.get(j);
+                            if(nodotemif.data =='*'){
+                                nodotemp.right = nodotemp2;
+                                nodotemp.left = nodotemif;
+                            }
+                            else{
+                                ;
+                            }
+                        }
+                    }
+                    else{
+                        Node nodotemp4 = listaNodos.get(i + 3);
+                        nodotemp.right = nodotemp2;
+                        nodotemp.left = nodotemp4;
+                    }
+                    
 
                 } else {
                     nodotemp.right = nodotemp2;
@@ -251,9 +266,18 @@ public class Tree {
             } else if (nodotemp.data == '|') {
                 Node nodotemp2 = listaNodos.get(i + 1);
                 if (nodotemp2.data == '*') {
-                    Node nodotemp3 = listaNodos.get(i + 3);
-                    nodotemp.right = nodotemp2;
-                    nodotemp.left = nodotemp3;
+                    Node nodotemp4 = listaNodos.get(i + 2);
+                    if(nodotemp4.data =='.'){
+                        Node nodotemp5 = listaNodos.get(i + 5);
+                        nodotemp.right = nodotemp2;
+                        nodotemp.left = nodotemp5;
+                    }
+                    else{
+                        Node nodotemp3 = listaNodos.get(i + 3);
+                        nodotemp.right = nodotemp2;
+                        nodotemp.left = nodotemp3;
+                    }
+                    
                 } else {
                     Node nodotemp3 = listaNodos.get(i + 2);
                     nodotemp.right = nodotemp2;
@@ -302,7 +326,7 @@ public class Tree {
             // firstPosTemp += n.data;
             // }
             // }
-            System.out.println(nodotemp.data);
+            
             // System.out.println("FirstPos: " + nodotemp.firstPos);
             // System.out.println("LastPos: " + nodotemp.lastPos);
             // System.out.println("FollowPos: " + nodotemp.followPos);
@@ -321,16 +345,17 @@ public class Tree {
     }
 
     public static void main(String[] args) {
+        
 
-        Tree arbol = new Tree("ab*.a.b*.#.");
-        // Tree arbol = new Tree("ab|*abb.|*.#.");
-        // Tree arbol = new Tree("ab|*a.b.b.#.");
+        Tree arbol = new Tree("ab|*a.b.b.#.");
+        //Tree arbol = new Tree("ab|*abb.*|.#.");
+        //Tree arbol = new Tree("ab|*ab|e|*.#.");
         arbol.CreateTree();
         arbol.loadRules();
         arbol.llenarDiccionarioFollows();
         System.out.println(arbol.tabla);
         arbol.construccionAFD();
-        // arbol.printArbol();
+        //arbol.printArbol();
         // arbol.printcaracteres();
 
     }
