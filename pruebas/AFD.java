@@ -24,7 +24,7 @@ public class AFD {
 
   }
 
-  public String mostrarAFDDirecto(){
+  public String mostrarAFDDirecto() {
     String result = "";
 
     for (Transicion t : transiciones) {
@@ -49,6 +49,16 @@ public class AFD {
 
     }
 
+  }
+
+  public ArrayList<Character> obtenerCaracteresAFD() {
+    ArrayList<Character> temp = new ArrayList<Character>();
+    for (Transicion t : transiciones) {
+      if (!temp.contains(t.valor)) {
+        temp.add(t.valor);
+      }
+    }
+    return temp;
   }
 
 }
