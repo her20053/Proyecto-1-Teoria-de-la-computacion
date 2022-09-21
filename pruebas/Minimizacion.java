@@ -100,7 +100,7 @@ public class Minimizacion {
       // Revisar si el grupo solo tiene una particion:
       if (grupo.size() != 1) {
 
-        // System.out.println(grupo);
+        // System.out.println("Grupo: " + grupo);
         // [[5], [4, 8], [5, 9], [0]]
 
         for (ArrayList<Integer> particion : grupo) {
@@ -115,6 +115,14 @@ public class Minimizacion {
           for (Transicion t : afd.transiciones) {
 
             // Comparando la particion con el estado
+
+            // t.mostrarTransicion();
+
+            // System.out.println(t);
+
+            // System.out.println("Estados inicial: " + t.estadosInicial);
+            // System.out.println("Particion:" + particion);
+
             if (t.estadosInicial == particion) {
 
               // System.out.println("ADSDASD");
@@ -163,6 +171,14 @@ public class Minimizacion {
 
               }
 
+              // System.out.println("ADSDASD");
+              // ArrayList<Integer> haciaDonde = new ArrayList<Integer>();
+
+              // Comparando el caracter
+
+              // System.out.println(haciaDonde);
+              // Para este punto ya tenemos hacia donde se dirige con cada caracter
+
             }
 
           }
@@ -171,7 +187,7 @@ public class Minimizacion {
 
         // System.out.println(haciaDonde);
 
-        // System.out.println(movimientosParticiones);
+        // System.out.println("Movimientos de particiones: " + movimientosParticiones);
 
         // {[5]=[0, 0], [4, 8]=[0, 0], [5, 9]=[0, 1], [0]=[0, 0]}
 
@@ -199,6 +215,12 @@ public class Minimizacion {
 
         // System.out.println(nuevasParticiones);
         // {[0, 0]=[[5], [4, 8], [0]], [0, 1]=[[5, 9]]}
+
+        // System.out.println(particionesIniciales);
+        // System.out.println(afd.estadosAceptacion);
+
+        // System.out.println("\nPARTICIONES:");
+        // System.out.println(nuevasParticiones);
 
         Map.Entry<ArrayList<Integer>, ArrayList<ArrayList<Integer>>> entry = nuevasParticiones.entrySet().iterator()
             .next();
@@ -240,7 +262,7 @@ public class Minimizacion {
 
     if (particionesIniciales != particionesInicialesII) {
 
-      System.out.println(particionesInicialesII);
+      // System.out.println(particionesInicialesII);
       generarParticiones(particionesInicialesII);
 
     }
@@ -439,7 +461,7 @@ public class Minimizacion {
       for (ArrayList<ArrayList<Integer>> e : particionesInicialesIII) {
         particionesFinales.add(e);
       }
-      System.out.println(particionesInicialesIII);
+      // System.out.println(particionesInicialesIII);
       generarParticiones(particionesInicialesIII);
 
     }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Tree {
-    ArrayList<Node> listaNodos = new ArrayList<Node>();
+    public ArrayList<Node> listaNodos = new ArrayList<Node>();
     // ArrayList<Node> listaNodos = new ArrayList<Node>();
     HashMap<Integer, ArrayList<Node>> tabla = new HashMap<Integer, ArrayList<Node>>();
     public String expresion;
@@ -320,21 +320,6 @@ public class Tree {
         }
     }
 
-    public static void main(String[] args) {
-
-        // Tree arbol = new Tree("ab*.a.b*.#.");
-        // Tree arbol = new Tree("ab|*abb.|*.#.");
-        Tree arbol = new Tree("ab|*a.b.b.#.");
-        arbol.CreateTree();
-        arbol.loadRules();
-        arbol.llenarDiccionarioFollows();
-        System.out.println(arbol.tabla);
-        arbol.construccionAFD();
-        // arbol.printArbol();
-        // arbol.printcaracteres();
-
-    }
-
     public ArrayList<Character> obtenerListaCaracteres() {
 
         ArrayList<Character> result = new ArrayList<Character>();
@@ -427,10 +412,12 @@ public class Tree {
             if (mov.getValue().size() == 1) {
                 // System.out.println(mov.getValue().get(0));
                 Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(0), null);
+
                 this.afd.transiciones.add(t);
             } else {
                 // System.out.println(mov.getValue().get(1));
                 Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(1), null);
+
                 this.afd.transiciones.add(t);
             }
 
@@ -448,9 +435,9 @@ public class Tree {
             }
         }
 
-        afd.transiciones.remove(afd.transiciones.size() - 1);
-        System.out.println("\nafd");
-        System.out.println(afd.mostrarAFDDirecto());
+        // afd.transiciones.remove(afd.transiciones.size() - 1);
+        // System.out.println("\nafd");
+        // System.out.println(afd.mostrarAFDDirecto());
 
         return afd;
 
@@ -463,7 +450,7 @@ public class Tree {
         // System.out.println(listaNodos);
 
         // Obtenemos siempre el primer estado 1:
-        System.out.println("Estado: " + ne);
+        // System.out.println("Estado: " + ne);
         ArrayList<Node> FPestadoInicial = ne;
         if (!listaEstadosGenerados.contains(FPestadoInicial)) {
             listaEstadosGenerados.add(FPestadoInicial);
@@ -481,7 +468,9 @@ public class Tree {
         // Hashmap:
         HashMap<Character, ArrayList<ArrayList<Node>>> mapaMovimientos = new HashMap<Character, ArrayList<ArrayList<Node>>>();
         for (char c : listaCaracteres) {
-            mapaMovimientos.put(c, new ArrayList<ArrayList<Node>>());
+            if (c != '#') {
+                mapaMovimientos.put(c, new ArrayList<ArrayList<Node>>());
+            }
         }
 
         // Recorremos su followpos para almacenar movimientos y nuevos estados:
@@ -499,7 +488,12 @@ public class Tree {
 
         }
 
-        System.out.println(mapaMovimientos);
+        // System.out.println("ANTES" + mapaMovimientos);
+        mapaMovimientos.remove('#');
+        // System.out.println("DESPUES" + mapaMovimientos);
+
+        // System.out.println(mapaMovimientos);
+
         // {a=[[1, 2, 3], [4], [5]], b=[[1, 2, 3]]}
         // System.out.println("entrey: " + mapaMovimientos.entrySet());
         // Revisamos si se generan nuevos estados:
@@ -512,7 +506,7 @@ public class Tree {
                     nuevo.addAll(Listnode);
                     // System.out.println("nuevo" + nuevo);
                 }
-                System.out.println("nuevo " + nuevo);
+                // System.out.println("nuevo " + nuevo);
                 // [1, 2, 3, 4]
 
                 // for (int i = 1; i < mov.getValue().size(); i++) {
@@ -616,6 +610,21 @@ public class Tree {
             lastPos(n);
             followPos(n);
         }
+    }
+
+    public static void main(String[] args) {
+
+        // Tree arbol = new Tree("ab*.a.b*.#.");
+        // Tree arbol = new Tree("ab|*abb.|*.#.");
+        Tree arbol = new Tree("ab|*a.b.b.#.");
+        arbol.CreateTree();
+        arbol.loadRules();
+        arbol.llenarDiccionarioFollows();
+        // System.out.println(arbol.tabla);
+        arbol.construccionAFD();
+        // arbol.printArbol();
+        // arbol.printcaracteres();
+
     }
 
 }

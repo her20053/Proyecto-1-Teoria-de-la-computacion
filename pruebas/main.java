@@ -16,9 +16,9 @@ class Main {
         // String expresionRegular = "(a*|b*)*";
         // String expresionRegular = "a.b*.a.b*";
 
-        // String expresionRegular = "(a|b)*.a.b.b";
+        String expresionRegular = "(a|b)*.a.b.b";
 
-        String expresionRegular = "(0|ε).((1|ε)|ε).0*";
+        // String expresionRegular = "(0|ε).((1|ε)|ε).0*";
 
         // String expresionRegular = "(a|b)*.((a|(b.b))*)";
 
@@ -103,6 +103,8 @@ class Main {
         AFD afd = Eclosure.convertirAFN(afnReorganizado);
         // System.out.println(Eclosure.estadosGenerados);
 
+        // System.out.println(afd.transiciones);
+
         // System.out.println("AFD generado por subconjuntos: \n");
 
         // System.out.println(afd);
@@ -169,9 +171,31 @@ class Main {
 
         AFD afdMinimizado = minimizacion.minimizarAFD();
 
-        // System.out.println(afdMinimizado);
+        System.out.println(afdMinimizado);
 
-        System.out.println(minimizacion.listaEstados);
+        // System.out.println(minimizacion.listaEstados);
+
+        // ------------------------------------------------------------------
+
+        // REGEX a AFD directo
+
+        Tree arbol = new Tree(postfix + "#.");
+
+        arbol.CreateTree();
+        arbol.loadRules();
+        arbol.llenarDiccionarioFollows();
+        AFD arbolAFD = arbol.construccionAFD();
+
+        arbolAFD.generarEstadosAceptacion2(arbol.listaNodos.get(arbol.listaNodos.size() - 2).numnode,
+                arbol.listaEstadosGenerados);
+
+        // System.out.println(arbolAFD.transiciones);
+
+        MinimizacionNode minimizacion2 = new MinimizacionNode(arbolAFD);
+
+        AFD afdMinimizado2 = minimizacion2.minimizarAFD();
+
+        System.out.println(afdMinimizado2.mostrarAFDDirecto());
 
     }
 

@@ -40,7 +40,7 @@ public class Transicion {
     }
 
     public String toString() {
-        return "[" + estadosInicial + "," + valor + "," + estadosFinal + "]";
+        return "[" + ein + "," + valor + "," + efn + "]";
     }
 
 }

@@ -7,6 +7,10 @@ public class AFD {
   public ArrayList<Transicion> transiciones = new ArrayList<>();
   public ArrayList<ArrayList<Integer>> estadosAceptacion = new ArrayList<>();
   public ArrayList<ArrayList<Integer>> estadosNOAceptacion = new ArrayList<>();
+
+  public ArrayList<ArrayList<Node>> estadosAceptacionNode = new ArrayList<>();
+  public ArrayList<ArrayList<Node>> estadosNOAceptacionNode = new ArrayList<>();
+
   public ArrayList<Character> listaCaracteres = new ArrayList<>();
 
   public AFD() {
@@ -51,10 +55,35 @@ public class AFD {
 
   }
 
+  public void generarEstadosAceptacion2(int estadoFinal, ArrayList<ArrayList<Node>> listado) {
+
+    for (ArrayList<Node> arr : listado) {
+
+      boolean fueAgregadoArr = false;
+
+      for (Node n : arr) {
+
+        if (n.numnode == estadoFinal) {
+          estadosAceptacionNode.add(arr);
+          fueAgregadoArr = true;
+        }
+
+      }
+
+      if (!fueAgregadoArr) {
+
+        estadosNOAceptacionNode.add(arr);
+
+      }
+
+    }
+
+  }
+
   public ArrayList<Character> obtenerCaracteresAFD() {
     ArrayList<Character> temp = new ArrayList<Character>();
     for (Transicion t : transiciones) {
-      if (!temp.contains(t.valor)) {
+      if (!temp.contains(t.valor) || t.valor == '#') {
         temp.add(t.valor);
       }
     }
