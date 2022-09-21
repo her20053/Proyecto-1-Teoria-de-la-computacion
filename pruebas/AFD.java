@@ -24,6 +24,16 @@ public class AFD {
 
   }
 
+  public String mostrarAFDDirecto(){
+    String result = "";
+
+    for (Transicion t : transiciones) {
+      result += "[" + t.ein + ", " + t.valor + ", " + t.efn + "]" + "\n";
+    }
+
+    return result;
+  }
+
   public void generarEstadosAceptacion(int estadoFinal, HashMap<ArrayList<Integer>, ArrayList<Integer>> diccionario) {
 
     for (Map.Entry<ArrayList<Integer>, ArrayList<Integer>> entry : diccionario.entrySet()) {

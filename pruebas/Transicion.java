@@ -27,7 +27,7 @@ public class Transicion {
 
     public Transicion(ArrayList<Node> estadosIncial, char c, ArrayList<Node> estadosFinal, ArrayList<Node> queImporta) {
         this.ein = estadosIncial;
-        this.efn = estadosIncial;
+        this.efn = estadosFinal;
         this.valor = c;
     }
 
