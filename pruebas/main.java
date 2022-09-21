@@ -15,7 +15,11 @@ class Main {
         // String expresionRegular = "(a|b)*.a.b.b";
         // String expresionRegular = "(a*|b*)*";
         // String expresionRegular = "a.b*.a.b*";
-        String expresionRegular = "(a|b)*.a.b.b";
+
+        // String expresionRegular = "(a|b)*.a.b.b";
+
+        String expresionRegular = "(0|ε).((1|ε)|ε).0*";
+
         // String expresionRegular = "(a|b)*.((a|(b.b))*)";
 
         // ------------------------------------------------------------------
@@ -38,7 +42,7 @@ class Main {
 
         // Tiempo - Tiempo 1
 
-        System.out.println("AFN generado por Thompson: \n");
+        // System.out.println("AFN generado por Thompson: \n");
 
         // afnFinal.mostrarAFN();
 
@@ -55,7 +59,7 @@ class Main {
 
         AFN afnReorganizado = Eclosure.reOrganizarAFN(afnFinal);
 
-        System.out.println(afnReorganizado);
+        // System.out.println(afnReorganizado);
 
         try {
             FileWriter fw = new FileWriter("GeneracionDeAFN.txt");
@@ -99,16 +103,16 @@ class Main {
         AFD afd = Eclosure.convertirAFN(afnReorganizado);
         // System.out.println(Eclosure.estadosGenerados);
 
-        System.out.println("AFD generado por subconjuntos: \n");
+        // System.out.println("AFD generado por subconjuntos: \n");
 
-        System.out.println(afd);
+        // System.out.println(afd);
 
         // System.out.println(Eclosure.estadosGenerados);
-        System.out.println(Eclosure.diccionarioEstadosGenerados);
+        // System.out.println(Eclosure.diccionarioEstadosGenerados);
         afd.generarEstadosAceptacion(afnReorganizado.transiciones
                 .get(afnReorganizado.transiciones.size() - 1).estadoFinal, Eclosure.diccionarioEstadosGenerados);
-        System.out.println(afd.estadosAceptacion);
-        System.out.println(afd.estadosNOAceptacion);
+        // System.out.println(afd.estadosAceptacion);
+        // System.out.println(afd.estadosNOAceptacion);
 
         try {
             FileWriter fw = new FileWriter("ConversionAFNaAFD.txt");
@@ -164,6 +168,10 @@ class Main {
         Minimizacion minimizacion = new Minimizacion(afd);
 
         AFD afdMinimizado = minimizacion.minimizarAFD();
+
+        // System.out.println(afdMinimizado);
+
+        System.out.println(minimizacion.listaEstados);
 
     }
 

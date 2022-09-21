@@ -322,9 +322,9 @@ public class Tree {
 
     public static void main(String[] args) {
 
-        Tree arbol = new Tree("ab*.a.b*.#.");
+        // Tree arbol = new Tree("ab*.a.b*.#.");
         // Tree arbol = new Tree("ab|*abb.|*.#.");
-        // Tree arbol = new Tree("ab|*a.b.b.#.");
+        Tree arbol = new Tree("ab|*a.b.b.#.");
         arbol.CreateTree();
         arbol.loadRules();
         arbol.llenarDiccionarioFollows();
