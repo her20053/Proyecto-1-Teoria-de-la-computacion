@@ -322,9 +322,9 @@ public class Tree {
 
     public static void main(String[] args) {
 
-        // Tree arbol = new Tree("ab*.a.b*.#.");
+        Tree arbol = new Tree("ab*.a.b*.#.");
         // Tree arbol = new Tree("ab|*abb.|*.#.");
-        Tree arbol = new Tree("ab|*a.b.b.#.");
+        // Tree arbol = new Tree("ab|*a.b.b.#.");
         arbol.CreateTree();
         arbol.loadRules();
         arbol.llenarDiccionarioFollows();
@@ -448,6 +448,7 @@ public class Tree {
             }
         }
 
+        afd.transiciones.remove(afd.transiciones.size() - 1);
         System.out.println("\nafd");
         System.out.println(afd.mostrarAFDDirecto());
 
@@ -462,12 +463,12 @@ public class Tree {
         // System.out.println(listaNodos);
 
         // Obtenemos siempre el primer estado 1:
-
+        System.out.println("Estado: " + ne);
         ArrayList<Node> FPestadoInicial = ne;
         if (!listaEstadosGenerados.contains(FPestadoInicial)) {
             listaEstadosGenerados.add(FPestadoInicial);
         }
-        System.out.println("eInicial: " + listaEstadosGenerados);
+        // System.out.println("eInicial: " + listaEstadosGenerados);
         // System.out.println(listaNodos.get(listaNodos.size() - 1).firstPos);
 
         // Obtenemos todos los characteres posibles en el AFD:
@@ -498,7 +499,7 @@ public class Tree {
 
         }
 
-        // System.out.println(mapaMovimientos);
+        System.out.println(mapaMovimientos);
         // {a=[[1, 2, 3], [4], [5]], b=[[1, 2, 3]]}
         // System.out.println("entrey: " + mapaMovimientos.entrySet());
         // Revisamos si se generan nuevos estados:
@@ -511,17 +512,26 @@ public class Tree {
                     nuevo.addAll(Listnode);
                     // System.out.println("nuevo" + nuevo);
                 }
-                // System.out.println(nuevo);
+                System.out.println("nuevo " + nuevo);
                 // [1, 2, 3, 4]
-                System.out.println(mov.getValue());
-                for (int i = 1; i < mov.getValue().size(); i++) {
-                    mov.getValue().remove(i);
-                }
-                System.out.println("value " + mov.getValue());
+
+                // for (int i = 1; i < mov.getValue().size(); i++) {
+                // mov.getValue().remove(i);
+                // }
+
+                mov.getValue().clear();
+
+                mov.getValue().add(FPestadoInicial);
+                // System.out.println("value " + mov.getValue());
                 // [[1, 2, 3]]
                 mov.getValue().add(nuevo);
-                System.out.println("valuenuevo " + mov.getValue());
+                // System.out.println("valuenuevo " + mov.getValue());
 
+            } else if (mov.getValue().size() == 1 && mov.getValue().get(0) != FPestadoInicial) {
+                ArrayList<Node> nod = mov.getValue().get(0);
+                mov.getValue().clear();
+                mov.getValue().add(FPestadoInicial);
+                mov.getValue().add(nod);
             }
             // System.out.println("Estados: " + mov.getValue());
             for (ArrayList<Node> nod : mov.getValue()) {
@@ -532,8 +542,8 @@ public class Tree {
 
         }
 
-        System.out.println("Para: " + FPestadoInicial + " ( 1 ) sus estados son: " +
-                mapaMovimientos);
+        // System.out.println("Para: " + FPestadoInicial + " ( 1 ) sus estados son: " +
+        // mapaMovimientos);
         // {a=[[1, 2, 3], [1, 2, 3, 4]], b=[[1, 2, 3]]}
 
         for (Map.Entry<Character, ArrayList<ArrayList<Node>>> mov : mapaMovimientos.entrySet()) {
