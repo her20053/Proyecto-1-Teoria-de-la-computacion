@@ -279,19 +279,19 @@ public class Tree {
             Node nodotemp = listaNodos.get(i);
             System.out.println("Nodo " + nodotemp.data);
 
-            // try {
-            // System.out.println("Derecha del nodo " + nodotemp.right.data);
+            try {
+                System.out.println("Derecha del nodo " + nodotemp.right.data);
 
-            // } catch (Exception e) {
-            // System.out.println("Derecha del nodo null ");
+            } catch (Exception e) {
+                System.out.println("Derecha del nodo null ");
 
-            // }
-            // try {
-            // System.out.println("Izquierda del nodo " + nodotemp.left.data);
+            }
+            try {
+                System.out.println("Izquierda del nodo " + nodotemp.left.data);
 
-            // } catch (Exception e) {
-            // System.out.println("Izquierda del nodo null");
-            // }
+            } catch (Exception e) {
+                System.out.println("Izquierda del nodo null");
+            }
 
             // System.out.println(nodotemp.firstPos);
             // try {
@@ -303,9 +303,9 @@ public class Tree {
             // }
             // }
             System.out.println(nodotemp.data);
-            System.out.println("FirstPos: " + nodotemp.firstPos);
-            System.out.println("LastPos: " + nodotemp.lastPos);
-            System.out.println("FollowPos: " + nodotemp.followPos);
+            // System.out.println("FirstPos: " + nodotemp.firstPos);
+            // System.out.println("LastPos: " + nodotemp.lastPos);
+            // System.out.println("FollowPos: " + nodotemp.followPos);
 
             // } catch (Exception e) {
             // }
@@ -323,6 +323,7 @@ public class Tree {
     public static void main(String[] args) {
 
         // Tree arbol = new Tree("ab*.a.b*.#.");
+        // Tree arbol = new Tree("ab|*abb.|*.#.");
         Tree arbol = new Tree("ab|*a.b.b.#.");
         arbol.CreateTree();
         arbol.loadRules();
@@ -409,25 +410,25 @@ public class Tree {
 
             }
             // System.out.println("Estados: " + mov.getValue());
-            for(ArrayList<Node> nod: mov.getValue()) {
-                if(!listaEstadosGenerados.contains(nod)){
+            for (ArrayList<Node> nod : mov.getValue()) {
+                if (!listaEstadosGenerados.contains(nod)) {
                     listaEstadosGenerados.add(nod);
                 }
             }
 
         }
 
-        // System.out.println("Para: " + FPestadoInicial + " ( 1 ) sus estados son: " + mapaMovimientos);
+        // System.out.println("Para: " + FPestadoInicial + " ( 1 ) sus estados son: " +
+        // mapaMovimientos);
         // {a=[[1, 2, 3], [1, 2, 3, 4]], b=[[1, 2, 3]]}
 
         for (Map.Entry<Character, ArrayList<ArrayList<Node>>> mov : mapaMovimientos.entrySet()) {
-            
-            if(mov.getValue().size() == 1) {
+            // System.out.println("MOv" + mov.getValue());
+            if (mov.getValue().size() == 1) {
                 // System.out.println(mov.getValue().get(0));
                 Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(0), null);
                 this.afd.transiciones.add(t);
-            }
-            else{
+            } else {
                 // System.out.println(mov.getValue().get(1));
                 Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(1), null);
                 this.afd.transiciones.add(t);
@@ -435,39 +436,45 @@ public class Tree {
 
         }
 
+        // System.out.println(listaEstadosGenerados);
+        ArrayList<ArrayList<Node>> estadosTemp1 = new ArrayList<ArrayList<Node>>();
+        estadosTemp1 = (ArrayList<ArrayList<Node>>) listaEstadosGenerados.clone();
 
-        System.out.println(listaEstadosGenerados);
-
-        for(ArrayList<Node> n: listaEstadosGenerados){
-            if(n != FPestadoInicial){
+        for (ArrayList<Node> n : estadosTemp1) {
+            if (n != FPestadoInicial) {
                 // System.out.println(n);
                 // [1, 2, 3, 4]
                 followPosGen(n);
             }
         }
 
+        System.out.println("\nafd");
         System.out.println(afd.mostrarAFDDirecto());
+
         return afd;
 
     }
 
-    public void followPosGen(ArrayList<Node> ne){
+    public void followPosGen(ArrayList<Node> ne) {
 
-    // {1=[1, 2, 3], 2=[1, 2, 3], 3=[4], 4=[5], 5=[6]}
+        // {1=[1, 2, 3], 2=[1, 2, 3], 3=[4], 4=[5], 5=[6]}
 
         // System.out.println(listaNodos);
 
         // Obtenemos siempre el primer estado 1:
 
         ArrayList<Node> FPestadoInicial = ne;
-        if(!listaEstadosGenerados.contains(FPestadoInicial)){
+        if (!listaEstadosGenerados.contains(FPestadoInicial)) {
             listaEstadosGenerados.add(FPestadoInicial);
         }
+        System.out.println("eInicial: " + listaEstadosGenerados);
         // System.out.println(listaNodos.get(listaNodos.size() - 1).firstPos);
 
         // Obtenemos todos los characteres posibles en el AFD:
         ArrayList<Character> listaCaracteres = obtenerListaCaracteres();
-        ArrayList<ArrayList<Node>> estadosTemp =  (ArrayList<ArrayList<Node>>) listaEstadosGenerados.clone();
+        ArrayList<ArrayList<Node>> estadosTemp = new ArrayList<ArrayList<Node>>();
+        estadosTemp.clear();
+        estadosTemp = (ArrayList<ArrayList<Node>>) listaEstadosGenerados.clone();
 
         // Ahora creamos una ArrayList<Nodes> para cada caracter y la almacenamos en un
         // Hashmap:
@@ -478,7 +485,7 @@ public class Tree {
 
         // Recorremos su followpos para almacenar movimientos y nuevos estados:
         for (Node n : FPestadoInicial) {
-
+            // System.out.println("data" + n.data);
             // Llenamos el diccionario con los caracteres y sus movimientos con los
             // followPos de cada uno:
             if (mapaMovimientos.containsKey(n.data)) {
@@ -493,66 +500,72 @@ public class Tree {
 
         // System.out.println(mapaMovimientos);
         // {a=[[1, 2, 3], [4], [5]], b=[[1, 2, 3]]}
-
+        // System.out.println("entrey: " + mapaMovimientos.entrySet());
         // Revisamos si se generan nuevos estados:
         for (Map.Entry<Character, ArrayList<ArrayList<Node>>> mov : mapaMovimientos.entrySet()) {
             if (mov.getValue().size() > 1) {
+                // System.out.println("move: " + mov.getValue());
                 ArrayList<Node> nuevo = new ArrayList<Node>();
                 for (ArrayList<Node> Listnode : mov.getValue()) {
-                    // System.out.println(Listnode);
+                    // System.out.println("listnode" + Listnode);
                     nuevo.addAll(Listnode);
+                    // System.out.println("nuevo" + nuevo);
                 }
                 // System.out.println(nuevo);
                 // [1, 2, 3, 4]
+                System.out.println(mov.getValue());
                 for (int i = 1; i < mov.getValue().size(); i++) {
                     mov.getValue().remove(i);
                 }
-                // System.out.println(mov.getValue());
+                System.out.println("value " + mov.getValue());
                 // [[1, 2, 3]]
                 mov.getValue().add(nuevo);
+                System.out.println("valuenuevo " + mov.getValue());
 
             }
             // System.out.println("Estados: " + mov.getValue());
-            for(ArrayList<Node> nod: mov.getValue()) {
-                if(!listaEstadosGenerados.contains(nod)){
+            for (ArrayList<Node> nod : mov.getValue()) {
+                if (!listaEstadosGenerados.contains(nod)) {
                     estadosTemp.add(nod);
                 }
             }
 
         }
 
-        // System.out.println("Para: " + FPestadoInicial + " ( 1 ) sus estados son: " + mapaMovimientos);
+        System.out.println("Para: " + FPestadoInicial + " ( 1 ) sus estados son: " +
+                mapaMovimientos);
         // {a=[[1, 2, 3], [1, 2, 3, 4]], b=[[1, 2, 3]]}
 
         for (Map.Entry<Character, ArrayList<ArrayList<Node>>> mov : mapaMovimientos.entrySet()) {
-            
-            if(mov.getValue().size() == 1) {
-                // System.out.println(mov.getValue().get(0));
+
+            if (mov.getValue().size() == 1) {
+                // System.out.println("ein de 1 " + mov.getValue().get(0));
                 Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(0), null);
                 this.afd.transiciones.add(t);
-            }
-            else{
-                // System.out.println(mov.getValue().get(1));
+            } else {
+                // System.out.println("ein de 1 " + mov.getValue().get(1));
                 Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(1), null);
                 this.afd.transiciones.add(t);
             }
 
         }
 
+        // System.out.println(listaEstadosGenerados);
 
-        System.out.println(listaEstadosGenerados);
+        for (ArrayList<Node> n : estadosTemp) {
+            if (n != FPestadoInicial) {
+                // System.out.println("primer n" + n);
+                if (!listaEstadosGenerados.contains(n) && n.size() > 0) {
 
-        for(ArrayList<Node> n: estadosTemp){
-            if(n != FPestadoInicial){
-                if(!listaEstadosGenerados.contains(n)){
-
-                    System.out.println(n);
+                    // System.out.println("n " + n);
                     followPosGen(n);
                 }
-                // [1, 2, 3, 4]
-            }
-        }
 
+            }
+
+        }
+        // System.out.println("lista2" + listaEstadosGenerados);
+        // System.out.println("temp" + estadosTemp);
     }
 
     public void llenarDiccionarioFollows() {
