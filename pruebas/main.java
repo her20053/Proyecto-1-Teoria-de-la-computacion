@@ -16,7 +16,13 @@ class Main {
         // String expresionRegular = "(a*|b*)*";
         // String expresionRegular = "a.b*.a.b*";
 
-        String expresionRegular = "(a|b)*.a.b.b";
+        // String expresionRegular = "(a|b)*.a.b.b";
+        String expresionRegular = "(a|b)*";
+
+
+        String cadenaUniversad = "abbbbbabb";
+
+        // abbbbbabb
 
         // String expresionRegular = "(0|ε).((1|ε)|ε).0*";
 
@@ -180,7 +186,7 @@ class Main {
         try {
             FileWriter fw = new FileWriter("GeneracionAFDDirecto.txt");
             ArrayList<ArrayList<Integer>> estados = new ArrayList<ArrayList<Integer>>();
-            System.out.println(arbol.listaEstadosGenerados);
+            
             for (Transicion t : afd.transiciones) {
                 if (!estados.contains(t.estadosInicial)) {
                     estados.add(t.estadosInicial);
@@ -233,7 +239,7 @@ class Main {
         try {
             FileWriter fw = new FileWriter("MinimizacionDeAFD Directo.txt");
             ArrayList<ArrayList<Integer>> estados = new ArrayList<ArrayList<Integer>>();
-            System.out.println(arbol.listaEstadosGenerados);
+            
             for (Transicion t : afd.transiciones) {
                 if (!estados.contains(t.estadosInicial)) {
                     estados.add(t.estadosInicial);
@@ -294,7 +300,7 @@ class Main {
         try {
             FileWriter fw = new FileWriter("MinimizacionDeAFD AFN.txt");
             ArrayList<ArrayList<Integer>> estados = new ArrayList<ArrayList<Integer>>();
-            System.out.println(arbol.listaEstadosGenerados);
+            // 
             for (Transicion t : afd.transiciones) {
                 if (!estados.contains(t.estadosInicial)) {
                     estados.add(t.estadosInicial);
@@ -337,6 +343,73 @@ class Main {
         } catch (Exception e) {
             // TODO: handle exception
         }
+
+        SimulacionAFD simulacionAFD = new SimulacionAFD(afdMinimizado, cadenaUniversad);
+
+        long start = System.currentTimeMillis();
+
+        simulacionAFD.simular();
+
+        System.out.println("Resultado de la simulacion AFD Thompson: " + simulacionAFD.completado);
+
+        System.out.println("La simulacion tardo aproximadamente: " + (System.currentTimeMillis() - start) + " ms.");
+
+        System.out.println();
+
+        SimulacionNode simulacionNode = new SimulacionNode(arbolAFD, cadenaUniversad);
+
+        start = System.currentTimeMillis();
+
+        simulacionNode.simular();
+
+        System.out.println("Resultado de la simulacion AFD Directo: " + simulacionNode.completado);
+
+        System.out.println("La simulacion tardo aproximadamente: " + (System.currentTimeMillis() - start) + " ms.");
+
+        System.out.println();
+
+        SimulacionAFD simulacionAFD2 = new SimulacionAFD(afdMinimizado, cadenaUniversad);
+
+        start = System.currentTimeMillis();
+
+        simulacionAFD2.simular();
+
+        System.out.println("Resultado de la simulacion AFD Thompson minimizado: " + simulacionAFD2.completado);
+
+        System.out.println("La simulacion tardo aproximadamente: " + (System.currentTimeMillis() - start) + " ms.");
+
+        System.out.println();
+
+        SimulacionNode simulacionNode2 = new SimulacionNode(afdMinimizado2, cadenaUniversad);
+
+        start = System.currentTimeMillis();
+
+        simulacionNode2.simular();
+
+        System.out.println("Resultado de la simulacion AFD Directo minimizado: " + simulacionNode2.completado);
+
+        System.out.println("La simulacion tardo aproximadamente: " + (System.currentTimeMillis() - start) + " ms.");
+
+        System.out.println();
+
+        // SimulacionAFN simulacionAFN = new SimulacionAFN(afnReorganizado, cadenaUniversad);
+
+        // simulacionAFN.simular();
+
+        // System.out.println("Resultado de la simulacion AFN: " + simulacionAFN.completado);
+
+        // System.out.println();
+
+
+
+
+
+
+
+
+
+        
+        // Necesitamos el afd y la cadena 
 
     }
 

@@ -392,12 +392,13 @@ public class Tree {
                     // System.out.println(Listnode);
                     nuevo.addAll(Listnode);
                 }
-                System.out.println(nuevo);
+                // System.out.println(nuevo);
+                
                 // [1, 2, 3, 4]
                 for (int i = 1; i < mov.getValue().size(); i++) {
                     mov.getValue().remove(i);
                 }
-                System.out.println(mov.getValue());
+                // System.out.println(mov.getValue());
                 // [[1, 2, 3]]
                 mov.getValue().add(nuevo);
 
