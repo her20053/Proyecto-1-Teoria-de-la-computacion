@@ -163,20 +163,6 @@ class Main {
 
         // ------------------------------------------------------------------
 
-        // Minimizacion por particiones
-
-        afd.listaCaracteres = afnReorganizado.obtenerListaCaracteres();
-
-        Minimizacion minimizacion = new Minimizacion(afd);
-
-        AFD afdMinimizado = minimizacion.minimizarAFD();
-
-        System.out.println(afdMinimizado);
-
-        // System.out.println(minimizacion.listaEstados);
-
-        // ------------------------------------------------------------------
-
         // REGEX a AFD directo
 
         Tree arbol = new Tree(postfix + "#.");
@@ -191,11 +177,166 @@ class Main {
 
         // System.out.println(arbolAFD.transiciones);
 
+        try {
+            FileWriter fw = new FileWriter("GeneracionAFDDirecto.txt");
+            ArrayList<ArrayList<Integer>> estados = new ArrayList<ArrayList<Integer>>();
+            System.out.println(arbol.listaEstadosGenerados);
+            for (Transicion t : afd.transiciones) {
+                if (!estados.contains(t.estadosInicial)) {
+                    estados.add(t.estadosInicial);
+                }
+                if (!estados.contains(t.estadosFinal)) {
+                    estados.add(t.estadosFinal);
+                }
+            }
+            String sfinal = "(";
+            for (ArrayList<Integer> i : estados) {
+                sfinal += " " + i.toString();
+            }
+            sfinal += " )";
+
+            String cfinal = "(";
+            for (Character c : afd.obtenerCaracteresAFD()) {
+                cfinal += " " + c.toString();
+            }
+            cfinal += " )";
+
+            String aceptacion = "(";
+
+            for (ArrayList<Integer> arr : afd.estadosAceptacion) {
+                aceptacion += " " + arr.toString();
+            }
+            aceptacion += " )";
+
+            fw.write("ESTADOS:\n");
+            fw.write(arbol.listaEstadosGenerados.toString());
+            fw.write("\nSIMBOLOS\n");
+            fw.write(arbolAFD.obtenerCaracteresAFD().toString());
+            fw.write("\nINICIO:\n");
+            fw.write("[ " + arbol.listaNodos.get(arbol.listaNodos.size() - 1).firstPos + " ]");
+            fw.write("\nFINAL\n");
+            // System.out.println("ACEP" + afdMinimizado2.estadosAceptacionNode);
+            fw.write(arbolAFD.estadosAceptacionNode.toString());
+            fw.write("\nTRANSICIONES:\n");
+            fw.write(arbolAFD.mostrarAFDDirecto());
+            fw.close();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
         MinimizacionNode minimizacion2 = new MinimizacionNode(arbolAFD);
 
         AFD afdMinimizado2 = minimizacion2.minimizarAFD();
 
-        System.out.println(afdMinimizado2.mostrarAFDDirecto());
+        // System.out.println(afdMinimizado2.mostrarAFDDirecto());
+
+        try {
+            FileWriter fw = new FileWriter("MinimizacionDeAFD Directo.txt");
+            ArrayList<ArrayList<Integer>> estados = new ArrayList<ArrayList<Integer>>();
+            System.out.println(arbol.listaEstadosGenerados);
+            for (Transicion t : afd.transiciones) {
+                if (!estados.contains(t.estadosInicial)) {
+                    estados.add(t.estadosInicial);
+                }
+                if (!estados.contains(t.estadosFinal)) {
+                    estados.add(t.estadosFinal);
+                }
+            }
+            String sfinal = "(";
+            for (ArrayList<Integer> i : estados) {
+                sfinal += " " + i.toString();
+            }
+            sfinal += " )";
+
+            String cfinal = "(";
+            for (Character c : afd.obtenerCaracteresAFD()) {
+                cfinal += " " + c.toString();
+            }
+            cfinal += " )";
+
+            String aceptacion = "(";
+
+            for (ArrayList<Integer> arr : afd.estadosAceptacion) {
+                aceptacion += " " + arr.toString();
+            }
+            aceptacion += " )";
+
+            fw.write("ESTADOS:\n");
+            fw.write(arbol.listaEstadosGenerados.toString());
+            fw.write("\nSIMBOLOS\n");
+            fw.write(afdMinimizado2.obtenerCaracteresAFD().toString());
+            fw.write("\nINICIO:\n");
+            fw.write("[ " + arbol.listaNodos.get(arbol.listaNodos.size() - 1).firstPos + " ]");
+            fw.write("\nFINAL\n");
+            // System.out.println("ACEP" + afdMinimizado2.estadosAceptacionNode);
+            fw.write(arbolAFD.estadosAceptacionNode.toString());
+            fw.write("\nTRANSICIONES:\n");
+            fw.write(afdMinimizado2.mostrarAFDDirecto());
+            fw.close();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        // ------------------------------------------------------------------
+
+        // Minimizacion por particiones
+
+        afd.listaCaracteres = afnReorganizado.obtenerListaCaracteres();
+
+        Minimizacion minimizacion = new Minimizacion(afd);
+
+        AFD afdMinimizado = minimizacion.minimizarAFD();
+
+        // System.out.println(afdMinimizado);
+
+        // System.out.println(minimizacion.listaEstados);
+
+        try {
+            FileWriter fw = new FileWriter("MinimizacionDeAFD AFN.txt");
+            ArrayList<ArrayList<Integer>> estados = new ArrayList<ArrayList<Integer>>();
+            System.out.println(arbol.listaEstadosGenerados);
+            for (Transicion t : afd.transiciones) {
+                if (!estados.contains(t.estadosInicial)) {
+                    estados.add(t.estadosInicial);
+                }
+                if (!estados.contains(t.estadosFinal)) {
+                    estados.add(t.estadosFinal);
+                }
+            }
+            String sfinal = "(";
+            for (ArrayList<Integer> i : estados) {
+                sfinal += " " + i.toString();
+            }
+            sfinal += " )";
+
+            String cfinal = "(";
+            for (Character c : afd.obtenerCaracteresAFD()) {
+                cfinal += " " + c.toString();
+            }
+            cfinal += " )";
+
+            String aceptacion = "(";
+
+            for (ArrayList<Integer> arr : afd.estadosAceptacion) {
+                aceptacion += " " + arr.toString();
+            }
+            aceptacion += " )";
+
+            fw.write("ESTADOS:\n");
+            fw.write(minimizacion.particionesFinales.toString());
+            fw.write("\nSIMBOLOS\n");
+            fw.write(afdMinimizado.obtenerCaracteresAFD().toString());
+            fw.write("\nINICIO:\n");
+            fw.write("[ " + minimizacion.particionesFinales.get(0) + " ]");
+            fw.write("\nFINAL\n");
+            // System.out.println("ACEP" + afdMinimizado2.estadosAceptacionNode);
+            fw.write(arbolAFD.estadosAceptacionNode.toString());
+            fw.write("\nTRANSICIONES:\n");
+            fw.write(afdMinimizado.toString());
+            fw.close();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
     }
 

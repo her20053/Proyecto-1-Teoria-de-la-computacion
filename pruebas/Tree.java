@@ -12,6 +12,8 @@ public class Tree {
     public String expresion;
     public int contador = 1;
 
+    ArrayList<Node> estadoVacio = new ArrayList<Node>();
+
     ArrayList<ArrayList<Node>> listaEstadosGenerados = new ArrayList<ArrayList<Node>>();
 
     AFD afd = new AFD();
@@ -338,6 +340,9 @@ public class Tree {
 
     public AFD construccionAFD() {
 
+        Node nulo = new Node('ε');
+        estadoVacio.add(nulo);
+
         // {1=[1, 2, 3], 2=[1, 2, 3], 3=[4], 4=[5], 5=[6]}
 
         // System.out.println(listaNodos);
@@ -361,13 +366,16 @@ public class Tree {
         // Recorremos su followpos para almacenar movimientos y nuevos estados:
         for (Node n : FPestadoInicial) {
 
+            // System.out.println(n.data);
             // Llenamos el diccionario con los caracteres y sus movimientos con los
             // followPos de cada uno:
             if (mapaMovimientos.containsKey(n.data)) {
                 mapaMovimientos.get(n.data).add(n.followPos);
             } else {
                 ArrayList<ArrayList<Node>> temp = new ArrayList<ArrayList<Node>>();
-                temp.add(n.followPos);
+                // System.out.println("Entro:" + FPestadoInicial + " " + n.followPos);
+                temp.add(FPestadoInicial);
+                // temp.add(n.followPos);
                 mapaMovimientos.put(n.data, temp);
             }
 
@@ -384,12 +392,12 @@ public class Tree {
                     // System.out.println(Listnode);
                     nuevo.addAll(Listnode);
                 }
-                // System.out.println(nuevo);
+                System.out.println(nuevo);
                 // [1, 2, 3, 4]
                 for (int i = 1; i < mov.getValue().size(); i++) {
                     mov.getValue().remove(i);
                 }
-                // System.out.println(mov.getValue());
+                System.out.println(mov.getValue());
                 // [[1, 2, 3]]
                 mov.getValue().add(nuevo);
 
@@ -410,15 +418,23 @@ public class Tree {
         for (Map.Entry<Character, ArrayList<ArrayList<Node>>> mov : mapaMovimientos.entrySet()) {
             // System.out.println("MOv" + mov.getValue());
             if (mov.getValue().size() == 1) {
-                // System.out.println(mov.getValue().get(0));
-                Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(0), null);
-
-                this.afd.transiciones.add(t);
+                try {
+                    // System.out.println(mov.getValue().get(0));
+                    Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(0), null);
+                    this.afd.transiciones.add(t);
+                } catch (Exception e) {
+                    Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), estadoVacio, null);
+                    this.afd.transiciones.add(t);
+                }
             } else {
-                // System.out.println(mov.getValue().get(1));
-                Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(1), null);
-
-                this.afd.transiciones.add(t);
+                try {
+                    // System.out.println(mov.getValue().get(1));
+                    Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(1), null);
+                    this.afd.transiciones.add(t);
+                } catch (Exception e) {
+                    Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), estadoVacio, null);
+                    this.afd.transiciones.add(t);
+                }
             }
 
         }
@@ -543,13 +559,27 @@ public class Tree {
         for (Map.Entry<Character, ArrayList<ArrayList<Node>>> mov : mapaMovimientos.entrySet()) {
 
             if (mov.getValue().size() == 1) {
-                // System.out.println("ein de 1 " + mov.getValue().get(0));
-                Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(0), null);
-                this.afd.transiciones.add(t);
+
+                try {
+                    // System.out.println("ein de 1 " + mov.getValue().get(0));
+                    Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(0), null);
+                    this.afd.transiciones.add(t);
+
+                } catch (Exception e) {
+                    Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), estadoVacio, null);
+                    this.afd.transiciones.add(t);
+                }
+
             } else {
-                // System.out.println("ein de 1 " + mov.getValue().get(1));
-                Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(1), null);
-                this.afd.transiciones.add(t);
+                try {
+                    // System.out.println("ein de 1 " + mov.getValue().get(1));
+                    Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), mov.getValue().get(1), null);
+                    this.afd.transiciones.add(t);
+                } catch (Exception e) {
+                    Transicion t = new Transicion(mov.getValue().get(0), mov.getKey(), estadoVacio, null);
+                    this.afd.transiciones.add(t);
+                }
+
             }
 
         }
@@ -614,9 +644,9 @@ public class Tree {
 
     public static void main(String[] args) {
 
-        // Tree arbol = new Tree("ab*.a.b*.#.");
+        Tree arbol = new Tree("ab*.a.b*.#.");
         // Tree arbol = new Tree("ab|*abb.|*.#.");
-        Tree arbol = new Tree("ab|*a.b.b.#.");
+        // Tree arbol = new Tree("ab|*a.b.b.#.");
         arbol.CreateTree();
         arbol.loadRules();
         arbol.llenarDiccionarioFollows();

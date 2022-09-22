@@ -327,7 +327,7 @@ public class MinimizacionNode {
 
         AFD nuevoAfd = new AFD();
 
-        System.out.println(this.afd.transiciones);
+        // System.out.println(this.afd.transiciones);
 
         // System.out.println(particionesFinales);
 
